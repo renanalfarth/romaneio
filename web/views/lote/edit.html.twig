@@ -1,0 +1,201 @@
+{% extends 'ag_base/backend.html.twig' %}
+
+{% block body_params %}class="skin-black"{% endblock %}
+
+{% block container %}
+
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        {% include 'menu.html.twig' with {'option': 'lote_edit'} %}
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Visualizar Lote
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'ag_alerts.html.twig' %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div class="box box-info" style="display: none;">
+                            <div class="box-body">
+                                
+                                <table class="table table-bordered ">
+                                    <tr>
+                                        <td colspan="2"><b>LOTE:</b> {{ lote['NUMERO'] }}</td>
+                                        <td colspan="2" class="data-td"><b>DATA:</b> {{ lote['DATA_ENVIO']|date("d/m/Y") }}</td>
+                                        <td colspan="3"><b>FACÇÃO:</b> {{ lote['FACCAO_ID'] }}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="5" class="produto-td"><b>PRODUTO:</b> {{ itens[0]['NOME'] }} &nbsp;&nbsp;&nbsp; <b>VALOR UN:</b> R$ {{ itens[0]['VALOR']|number_format(2, ',', '.') }}</td>
+                                    </tr>
+                                    
+                                    {% if baixas %}
+                                    
+                                    <tr>
+                                        <td style="text-align: center;"><b>TAM</b></td>
+                                        <td style="text-align: center;"><b>QTD</b></td>
+                                        
+                                        {% for item in baixas %}
+                                            <td style="text-align: center;" class="baixa"><b>{{ item['DATA']|date("d/m/Y") }}</b></td>
+                                        {% endfor %}
+                                        
+                                        <td style="text-align: center;"><b>TOTAL</td>
+                                        <td style="text-align: center;"><b>PÇS INACABADAS</td>
+                                        <td style="text-align: center;"><b>SALDO</td>
+                                    </tr>
+                                    
+                                    {% for item in itens %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ item['TAMANHO'] }}</td>
+                                            <td style="text-align: center;" class="qtd{{ item['ID'] }}">{{ item['QUANTIDADE'] }}</td>
+                                            
+                                            {% for baixa in baixas %}
+                                                <td class="baixas data{{ baixa['DATA']|date("dmY") }} item{{ item['ID'] }} item{{ item['ID'] }}{{ baixa['DATA']|date("dmY") }}" dataFormat="{{ baixa['DATA']|date("dmY") }}" style="text-align: center;" rel="{{ baixa['DATA'] }}" item="{{ item['ID'] }}">-</td>
+                                            {% endfor %}
+                                            
+                                            <td style="text-align: center;" class="totalItem" rel="{{ item['ID'] }}">-</td>
+                                            <td style="text-align: center;" class="inacabadas inacabada{{ item['ID'] }}" rel="{{ item['ID'] }}">-</td>
+                                            <td style="text-align: center;" class="saldoItem" rel="{{ item['ID'] }}">-</td>
+                                        </tr>
+                                    {% endfor %}
+                                    
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;"><b>TOTAL:</b></td>
+                                        
+                                        {% for item in baixas %}
+                                            <td style="text-align: center;" class="totalSoma" data="{{ item['DATA']|date("dmY") }}">{{ item['QUANTIDADE'] }}</td>
+                                        {% endfor %}
+                                        
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    
+                                    {% else %}
+                                        
+                                        
+                                         <tr>
+                                        <td style="text-align: center;"><b>TAM</b></td>
+                                        <td style="text-align: center;"><b>QTD</b></td>
+                                        
+                                        {% for i in 1..4 %}
+                                            <td style="text-align: center;" class="baixa"><b></b></td>
+                                        {% endfor %}
+                                        
+                                        <td style="text-align: center;"><b>TOTAL</td>
+                                        <td style="text-align: center;"><b>PÇS INACABADAS</td>
+                                        <td style="text-align: center;"><b>SALDO</td>
+                                    </tr>
+                                    
+                                    {% for item in itens %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ item['TAMANHO'] }}</td>
+                                            <td style="text-align: center;" class="qtd{{ item['ID'] }}">{{ item['QUANTIDADE'] }}</td>
+                                            
+                                            {% for i in 1..4 %}
+                                                <td style="text-align: center;"></td>
+                                            {% endfor %}
+                                            
+                                            <td style="text-align: center;" class="totalItem" rel="{{ item['ID'] }}"></td>
+                                            <td style="text-align: center;" class="inacabadas inacabada{{ item['ID'] }}" rel="{{ item['ID'] }}"></td>
+                                            <td style="text-align: center;" class="saldoItem" rel="{{ item['ID'] }}"></td>
+                                        </tr>
+                                    {% endfor %}
+                                    
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;"><b>TOTAL:</b></td>
+                                        
+                                        {% for item in baixas %}
+                                            <td style="text-align: center;" class="totalSoma" data="{{ item['DATA']|date("dmY") }}">{{ item['QUANTIDADE'] }}</td>
+                                        {% endfor %}
+                                        
+                                        <td colspan="3"></td>
+                                    </tr>
+                                        
+                                    {% endif %}
+                                    
+                                    <tr>
+                                        <td colspan="5" class="produto-td"><b>OBSERVAÇÃO:</b></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="5" class="produto-td" style="height: 100px;">
+                                            <b>Usar linha cor:</b> {{ lote['LINHA_COR'] }}
+                                            <br />
+                                            <b>Composição:</b> {{ lote['COMPOSICAO'] }}
+                                            <br />
+                                            {{ lote['OBSERVACAO'] }}
+                                            
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                                          
+                            </div>                        
+                        </div>                        
+                          
+                        <div class="box-duplicate">
+                            
+                        </div>                    
+                          
+                        <span class="printbts">                    
+                            <a href="javascript:void(0)" onclick="printDois();" class="btn btn-primary btnprint">Imprimir Duplo</a>            
+                            <a href="javascript:print()" class="btn btn-warning">Imprimir Individual</a>            
+                        </span>
+                                            
+                        <style type="text/css" media="print">
+                            .printbts {
+                                display: none!important;
+                            }
+                        </style>
+                        
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+    
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script type="text/javascript">
+        
+        $(function() {    
+        
+            $.blockUI({message: '<h5>Carregando...</5>'});
+            
+            var qtd = $('.baixa').length;
+            
+            $('.data-td').attr('colspan', qtd);
+            $('.produto-td').attr('colspan', parseInt($('.produto-td').attr('colspan')) + parseInt(qtd));
+            
+            setInterval(function () {$('.box-info').show();$.unblockUI();}, 1000);
+            
+        });
+        
+        function printDois() {
+                        
+            var html = $('.box-info').html();            
+                    
+            $('.box-duplicate').html(html);        
+        
+            window.print();
+            
+            $('.box-duplicate').html('');        
+        } 
+        
+    </script>
+    
+{% endblock %}

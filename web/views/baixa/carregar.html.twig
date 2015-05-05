@@ -1,0 +1,29 @@
+{% block container %}
+
+    <ul class="todo-list ui-sortable itens-new">
+
+        <li class="item">
+            <label>Produto: </label>&nbsp;&nbsp;&nbsp;
+            <select name="produto" class="required" id="produto" data-placeholder="Selecione o produto" style="width: 285px;">
+                <option value="{{ itens[0].produto_id }}">{{ itens[0].produto_nome }}</option>
+            </select>
+        </li>
+        
+        {% for item in itens %}
+            <li class="item">
+                <input type="hidden" name="ITEM_ID[]" value="{{ item.ID }}" />
+                <label>Tamanho: </label>
+                <select name="tamanho[]" style="width: 60px;">
+                    <option value="{{ item.tamanho_id }}">{{ item.tamanho_nome }}</option>
+                </select>
+                &nbsp;&nbsp;
+                <label>Quantidade: </label>
+                <input type="text" name="quantidade[]" value="0" />
+                &nbsp;&nbsp;
+                <label>Peças Inacabadas: </label>
+                <input type="text" name="pecas[]" value="0" />
+            </li>
+        {% endfor %}                                        
+    </ul>
+
+{% endblock %}

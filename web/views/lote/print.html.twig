@@ -1,0 +1,102 @@
+<head>
+    <title>Impressão de lote</title>
+</head>
+
+<link href="{{ app.asset_path }}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css" media="screen">
+    table {
+        font-family: verdana,arial,tahoma!important;
+        font-size: 12px!important;
+        max-width: 900px;
+        margin-bottom: 0px!important;
+    }
+    table th {
+        background: #F5F5F5!important;
+    }
+</style>
+<style type="text/css" media="print">
+    table {
+        font-family: verdana,arial,tahoma!important;
+        font-size: 12px!important;
+        max-width: 100%;
+        margin-bottom: 0px!important;
+    }
+    table th {
+        background: #F5F5F5!important;
+    }
+</style>
+
+<div style="margin: 0 auto;width: 900px;margin-top: 20px;">
+    <table class="table table-bordered table-condensed">
+        <tr>
+            <th>Prestação de  Serviços</th>
+            <th colspan="4">Facção: {{ lote['FACCAO'] }}</th>
+        </tr>
+
+        <tr>
+            <td>Número: {{ lote['NUMERO'] }}</td>
+            <td colspan="2">Data: {{ lote['DATA_ENVIO'] }}</td>
+        </tr>
+
+        <tr>
+            <th colspan="2">Item</th>
+            <th>Tamanho</th>
+            <th>Quantidade</th>
+        </tr>
+
+        {% for item in itens %}
+            <tr>
+                <td colspan="2">&bullet; <b>{{ item['NOME'] }}</b></td>
+                <td>{{ item['TAMANHO'] }}</td>
+                <td>{{ item['QUANTIDADE'] }}</td>
+            </tr>
+            
+            <tr>
+                <th colspan="4" style="text-align: center;">Recebimento:</th>
+            </tr>
+            <tr>
+                <td width="10%">Quantidade:</td>
+                <td width="10%">Quantidade:</td>
+                <td width="10%">Quantidade:</td>
+                <td width="10%">Quantidade:</td>
+            </tr>
+            <tr>
+                <td width="10%">Data:</td>
+                <td width="10%">Data:</td>
+                <td width="10%">Data:</td>
+                <td width="10%">Data:</td>
+            </tr>
+        {% endfor %}
+        
+    </table>
+        
+    <table class="table table-bordered table-condensed">
+        
+        <tr>
+            <th colspan="5">Observações:</th>
+        </tr>
+        
+        <tr>
+            <td colspan="5" style="min-height: 300px;">
+                {{ lote['OBSERVACAO'] }}
+                &nbsp;<br />&nbsp;<br />&nbsp;<br />
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5" style="text-align: center;">
+                Assinatura:
+                <br />
+                <br />
+                <hr />
+            </td>
+        </tr>
+        
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    window.print();
+</script>

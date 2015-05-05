@@ -1,0 +1,34 @@
+{% extends 'ag_base/backend.html.twig' %}
+
+{% block body_params %}class="skin-black bg-black"{% endblock %}
+
+{% block header %}
+    &nbsp;
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block container %}
+    
+    <div class="form-box" id="login-box">
+        <div class="header bg-red">Efetuar Login</div>
+        <form action="{{ url('login') }}" method="post">
+            <div class="body bg-gray">
+                <div class="form-group">
+                    <input type="text" name="email" class="form-control required" placeholder="E-mail"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="senha" class="form-control required" placeholder="Senha"/>
+                </div>          
+            </div>
+            <div class="footer">                                                               
+                <button type="submit" class="btn bg-red btn-block">Entrar</button>  
+            </div>
+        </form>
+
+    {% endblock %}

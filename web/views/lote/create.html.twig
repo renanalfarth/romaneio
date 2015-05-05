@@ -1,0 +1,143 @@
+{% extends 'ag_base/backend.html.twig' %}
+
+{% block body_params %}class="skin-black"{% endblock %}
+
+{% block container %}
+    
+    <link href="{{ app.asset_path }}/css/chosen.css" rel="stylesheet" type="text/css" />
+    
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        {% include 'menu.html.twig' with {'option': 'lote_create'} %}
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Criar Lote
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'ag_alerts.html.twig' %}
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        {{ form_start(form, {'method': 'POST'}) }}
+                        {{ form_errors(form) }}
+
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title"></h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+
+                                <div class='form-group'>
+                                    {{ form_label(form.NUMERO) }}
+                                    {{ form_widget(form.NUMERO, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+
+                                <div class='form-group'>
+                                    {{ form_label(form.DATA_ENVIO) }}
+                                    {{ form_widget(form.DATA_ENVIO, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+
+                                <div class='form-group'>
+                                    {{ form_label(form.OBSERVACAO) }}
+                                    {{ form_widget(form.OBSERVACAO, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+                             
+                                <div class='form-group'>
+                                    {{ form_label(form.LINHA_COR) }}
+                                    {{ form_widget(form.LINHA_COR, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+                                
+                                <div class='form-group'>
+                                    {{ form_label(form.FACCAO_ID) }}
+                                    {{ form_widget(form.FACCAO_ID, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+                                
+                                <div class='form-group'>
+                                    {{ form_label(form.COMPOSICAO_ID) }}
+                                    {{ form_widget(form.COMPOSICAO_ID, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+
+                            </div><!-- /.box-body -->
+
+                            <div class="box-body">
+                                <hr />
+                                
+                                <h4>Itens</h4>
+                                
+                                <p>Adicione abaixo os itens deste lote: </p>
+                                
+                                <div class="itens">
+                                    <ul class="todo-list ui-sortable itens-new">
+                                        <li class="item">
+                                            <label>Produto: </label>&nbsp;&nbsp;&nbsp;
+                                            <select name="produto" class="required" id="produto" data-placeholder="Selecione o produto" style="width: 285px;">
+                                                <option> </option>
+                                                {% for produto in produtos %}
+                                                    <option value="{{ produto.ID }}">{{ produto.CODIGO }} - {{ produto.NOME }}</option>
+                                                {% endfor %}  
+                                            </select>
+                                        </li>
+                                        
+                                        {% for id, nome in tamanhos %}
+                                            <li class="item">
+                                                <label>Tamanho: </label>
+                                                <select name="tamanho[]" style="width: 60px;">
+                                                    <option value="{{ id }}">{{ nome }}</option>
+                                                </select>
+                                                &nbsp;&nbsp;
+                                                <label>Quantidade: </label>
+                                                <input type="text" name="quantidade[]" />
+                                            </li>
+                                        {% endfor %}                                        
+                                    </ul>
+                                </div>
+                                
+                                <br />
+                                
+                                <button class="pull-right btn btn-default btn-sm additem" type="button">Novo +</button>
+                                
+                                <br />
+                                <br />
+                                
+                            </div>                
+                            
+                            {{ form_rest(form) }}
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+
+                        </div><!-- /.box -->
+                        {{ form_end(form) }}
+
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+{% endblock %}   
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ app.asset_path }}/js/plugins/chosen.jquery.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $("#produto").chosen();
+        });
+    </script>
+    
+{% endblock %}
